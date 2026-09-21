@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en" class="is-loading">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alpine Ascents</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bodoni+Moda:ital,wght@1,700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ice:#F2F8FB;
+  --black:#000000;
+  --ocean:#0B5ED7;
+  --paper:var(--ice);
+  --ink:var(--black);
+  --f-display:"Anton","Impact","Arial Narrow",sans-serif;
+  --f-accent:"Bodoni Moda","Playfair Display",Georgia,serif;
+  --f-body:"Space Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --gutter:clamp(16px,3.2vw,48px);
+  --strip:32px;
+  --index:52px;
+  --head:calc(var(--strip) + var(--index));
+  --ticker:40px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#000000;--ink:#F2F8FB}}
+:root[data-theme="dark"]{--paper:#000000;--ink:#F2F8FB}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+.lenis.lenis-stopped{overflow:hidden}
+html.is-loading{overflow:hidden}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.5 var(--f-body);padding-bottom:var(--ticker)}
+a{color:inherit}
+img,svg{display:block}
+a:focus-visible,button:focus-visible{outline:3px solid var(--ocean);outline-offset:2px}
+.sec--ocean :focus-visible,.ticker :focus-visible,.strip :focus-visible{outline-color:var(--ice)}
+
+/* Loader */
+.loader{position:fixed;inset:0;z-index:1100;background:var(--black);color:var(--ice);display:flex;align-items:center;justify-content:center}
+.loader__inner{width:min(560px,80vw)}
+.loader__count{font:400 clamp(120px,26vw,320px)/.85 var(--f-display);letter-spacing:-.01em}
+.loader__bar{height:6px;border:2px solid var(--ice);margin:22px 0 14px}
+.loader__bar i{display:block;height:100%;background:var(--ocean);transform-origin:0 50%;transform:scaleX(0)}
+.loader p{margin:0;font:600 14px/1.3 var(--f-body)}
+
+/* Header */
+.site-header{position:fixed;inset:0 0 auto 0;z-index:100}
+.strip{height:var(--strip);background:var(--black);color:var(--ice);display:flex;align-items:center;justify-content:space-between;padding:0 var(--gutter);font:600 12px/1 var(--f-body)}
+.strip__right{display:flex;align-items:center;gap:12px}
+.strip__logo{display:block;width:22px;height:22px}
+.strip__label{opacity:.8}
+.counter{display:flex;gap:2px}
+.counter b{display:grid;place-items:center;width:15px;height:20px;background:var(--ice);color:var(--black);font:400 14px/1 var(--f-display)}
+.index{height:var(--index);background:var(--paper);border-bottom:4px solid var(--ink);display:grid;grid-template-columns:repeat(11,1fr)}
+.index a{display:flex;align-items:center;justify-content:center;text-decoration:none;border-right:2px solid var(--ink);font:600 clamp(11px,.95vw,14px)/1 var(--f-body);white-space:nowrap;transition:background .12s,color .12s}
+.index a:last-of-type{border-right:0}
+.index a:hover,.index a:focus-visible{background:var(--ocean);color:var(--ice);outline-offset:-6px;outline-color:var(--ice)}
+.index a.is-active{background:var(--ink);color:var(--paper)}
+.menu-btn{display:none}
+
+.overlay{position:fixed;inset:var(--head) 0 0 0;z-index:90;background:var(--paper);color:var(--ink);overflow:auto;padding-bottom:var(--ticker);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.overlay.is-open{opacity:1;visibility:visible}
+.overlay a{display:block;padding:14px var(--gutter);border-bottom:4px solid var(--ink);text-decoration:none;font:400 clamp(38px,10vw,64px)/1 var(--f-display);text-transform:uppercase}
+.overlay a:hover,.overlay a:active{background:var(--ocean);color:var(--ice)}
+
+@media (max-width:1040px){
+  .index{display:block}
+  .index a{display:none}
+  .menu-btn{display:flex;align-items:center;justify-content:space-between;width:100%;height:100%;padding:0 var(--gutter);border:0;background:var(--ink);color:var(--paper);font:400 24px/1 var(--f-display);text-transform:uppercase;letter-spacing:.03em;cursor:pointer}
+  .menu-btn span{font-size:30px;transition:transform .2s}
+  .menu-btn.is-open span{transform:rotate(45deg)}
+}
+@media (min-width:1041px){.overlay{display:none}}
+@media (max-width:640px){.strip__left{display:none}.strip{justify-content:flex-end}}
+
+/* Hero */
+.hero-shell{height:100svh;min-height:640px;padding:var(--head) 0 var(--ticker);display:flex;flex-direction:column;background:var(--paper)}
+.hero{position:relative;flex:1;min-height:0;overflow:hidden;background:var(--black);color:var(--ice);border:4px solid var(--ink);margin:24px 28px;box-shadow:10px 10px 0 0 var(--ocean)}
+.hero__depth{position:absolute;inset:-14px;will-change:transform}
+.hero__img{position:absolute;left:0;top:-16%;width:100%;height:132%;object-fit:cover;object-position:center 45%}
+.hero__scrim{position:absolute;inset:0;background:rgba(0,0,0,.34)}
+.hero__title{position:absolute;z-index:2;left:clamp(16px,2.6vw,40px);right:clamp(16px,2.6vw,40px);top:clamp(28px,7%,84px)}
+.hero h1{margin:0;font:400 clamp(60px,19vw,340px)/.86 var(--f-display);text-transform:uppercase;letter-spacing:-.01em;color:var(--ice);text-shadow:.035em .035em 0 var(--black)}
+.hero h1 .line{display:block;overflow:hidden;padding:.04em .1em .1em 0}
+.hero h1 .line__in{display:block}
+.hero h1 em{font:italic 700 .92em/1 var(--f-accent);text-transform:none;letter-spacing:-.02em}
+.hero__bottom{position:absolute;z-index:3;left:clamp(16px,2.6vw,40px);right:clamp(16px,2.6vw,40px);bottom:clamp(16px,2.6vw,36px);display:flex;justify-content:space-between;align-items:flex-end;gap:16px}
+.facts{display:flex;border:3px solid var(--black);background:var(--ice);color:var(--black);box-shadow:6px 6px 0 0 var(--black)}
+.facts div{padding:10px 18px;border-right:3px solid var(--black)}
+.facts div:last-child{border-right:0}
+.facts b{display:block;font:400 clamp(26px,3.4vw,46px)/1 var(--f-display);letter-spacing:.01em}
+.facts span{display:block;margin-top:2px;font:600 12px/1.2 var(--f-body)}
+.cta{flex:none;width:clamp(108px,11vw,150px);aspect-ratio:1;border-radius:50%;background:var(--black);color:var(--ice);border:4px solid var(--ice);box-shadow:6px 6px 0 0 var(--ocean);display:flex;flex-direction:column;justify-content:space-between;padding:20px 22px;text-decoration:none;font:400 clamp(17px,1.6vw,22px)/1 var(--f-display);text-transform:uppercase;transition:transform .14s,box-shadow .14s}
+.cta svg{align-self:flex-end;width:34%;height:auto}
+.cta:hover,.cta:focus-visible{transform:translate(4px,4px) rotate(-8deg);box-shadow:2px 2px 0 0 var(--ocean)}
+@media (max-width:640px){
+  .facts div{padding:8px 12px}
+  .facts div:nth-child(n+2){display:none}
+  .cta{padding:14px 16px}
+}
+
+/* Ticker */
+.ticker{position:fixed;left:0;right:0;bottom:0;height:var(--ticker);z-index:100;background:var(--ocean);color:var(--ice);border-top:4px solid var(--black);overflow:hidden;display:flex;align-items:center}
+.ticker__track{display:flex;flex:none;white-space:nowrap;animation:tick 45s linear infinite}
+.ticker__group{display:flex;flex:none}
+.ticker__group span{display:flex;align-items:center;padding-left:22px;font:600 13px/1 var(--f-body)}
+.ticker__group span::after{content:"";width:8px;height:8px;background:var(--black);margin-left:22px}
+.ticker__sep{margin:0 8px;opacity:.5}
+.ticker__clock{font-variant-numeric:tabular-nums}
+@keyframes tick{to{transform:translateX(-50%)}}
+.ticker__loc{padding-right:0}
+
+/* Sections */
+.sec{position:relative;min-height:72svh;padding:clamp(72px,9vw,132px) var(--gutter);border-top:4px solid var(--ink);display:flex;flex-direction:column;justify-content:space-between;gap:56px}
+.sec h2{margin:0;max-width:14ch;font:400 clamp(60px,11.5vw,200px)/.9 var(--f-display);text-transform:uppercase;letter-spacing:-.01em}
+.sec--ice{background:var(--paper);color:var(--ink)}
+.sec--ocean{background:var(--ocean);color:var(--ice);border-color:var(--black)}
+.sec--black{background:var(--black);color:var(--ice);border-color:var(--ice)}
+
+/* Placeholder image treatment */
+.img-slot{aspect-ratio:var(--ar,16/10);border:4px solid var(--ink);background:var(--ice);box-shadow:8px 8px 0 0 var(--ocean);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.img-slot img{width:100%;height:100%;object-fit:cover;display:block}
+.img-slot.small{--ar:3/2}
+.img-slot.portrait{--ar:2/3}
+.img-slot.wide{--ar:16/9}
+.img-slot.square{--ar:1/1}
+
+/* History */
+.history__eras{display:grid;grid-template-columns:1fr;gap:48px;align-items:stretch}
+.history__era{display:grid;grid-template-columns:200px 1fr;gap:32px;align-items:center}
+@media (min-width:768px){.history__eras{grid-template-columns:repeat(2,1fr)}.history__era{grid-template-columns:280px 1fr}}
+@media (min-width:1100px){.history__eras{grid-template-columns:repeat(3,1fr)}.history__era{grid-template-columns:360px 1fr}}
+.history__year{font:400 clamp(48px,8vw,96px)/1 var(--f-display);text-transform:uppercase;letter-spacing:-.01em;border:4px solid var(--ink);background:var(--paper);box-shadow:8px 8px 0 0 var(--ocean);display:flex;align-items:center;justify-content:center;padding:12px;color:var(--black)}
+.history__era--ocean .history__year{background:var(--ice);color:var(--black);box-shadow:8px 8px 0 0 var(--black)}
+.history__body{border:4px solid var(--ink);background:var(--paper);box-shadow:8px 8px 0 0 var(--ocean);padding:28px 32px}
+.history__era--ocean .history__body{background:var(--ice);color:var(--black);box-shadow:8px 8px 0 0 var(--black)}
+.history__label{font:700 13px/1.2 var(--f-body);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;color:var(--ocean)}
+.history__era--ocean .history__label{color:var(--ice)}
+.history__body p{margin:0;font-size:17px;line-height:1.6}
+
+/* Types */
+.types__grid{display:grid;grid-template-columns:1fr;gap:32px;align-items:stretch}
+.types__panel{display:flex;flex-direction:column;gap:0}
+.types__img.img-slot.portrait{--ar:2/3;border:4px solid var(--ink);background:var(--ice);box-shadow:8px 8px 0 0 var(--ocean);overflow:hidden}
+.types__panel:hover .types__img{transform:scale(1.02)}
+@media (min-width:768px){.types__grid{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:1100px){.types__grid{grid-template-columns:repeat(4,1fr)}}
+.types__body{border:4px solid var(--ink);background:var(--paper);box-shadow:8px 8px 0 0 var(--ocean);padding:24px 28px;margin-top:16px}
+.types__panel:hover .types__body{box-shadow:4px 4px 0 0 var(--ocean)}
+.types__name{font:400 clamp(28px,4vw,42px)/1 var(--f-display);text-transform:uppercase;letter-spacing:-.01em;margin-bottom:12px}
+.types__body p{margin:0;font-size:16px;line-height:1.55}
+
+/* Techniques */
+.techniques__frame{position:relative;border:4px solid var(--ink);background:var(--paper);box-shadow:8px 8px 0 0 var(--ocean);overflow:hidden}
+.techniques__visual{min-height:320px;background:var(--ice);display:flex;align-items:center;justify-content:center;border-bottom:4px solid var(--ink)}
+.techniques__visual img{width:100%;height:auto;object-fit:cover;display:block;max-height:320px;border:4px solid var(--ink);box-shadow:6px 6px 0 0 var(--ocean)}
+.techniques__steps{display:grid;grid-template-columns:1fr;gap:24px;margin-top:32px}
+@media (min-width:768px){.techniques__steps{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:1100px){.techniques__steps{grid-template-columns:repeat(4,1fr)}}
+.technique__step{border:4px solid var(--ink);background:var(--paper);box-shadow:8px 8px 0 0 var(--ocean);padding:24px 28px;display:flex;flex-direction:column;gap:12px;align-items:stretch}
+.technique__step img{width:100%;height:auto;object-fit:cover;border:4px solid var(--ink);background:var(--ice);box-shadow:6px 6px 0 0 var(--ocean);display:block}
+.technique__num{font:400 clamp(40px,6vw,64px)/1 var(--f-display);text-transform:uppercase;letter-spacing:-.01em;color:var(--ocean)}
+.technique__name{font:700 14px/1.2 var(--f-body);text-transform:uppercase;letter-spacing:.05em}
+.technique__step p{margin:0;font-size:16px;line-height:1.55}
+
+/* Shelter */
+.shelter__grid{display:grid;grid-template-columns:1fr;gap:24px;align-items:stretch}
+@media (min-width:768px){.shelter__grid{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:1100px){.shelter__grid{grid-template-columns:repeat(4,1fr)}}
+.shelter__card{display:flex;flex-direction:column;gap:0}
+.shelter__img.img-slot.small{--ar:3/2;border:4px solid var(--ink);background:var(--ice);box-shadow:8px 8px 0 0 var(--ocean);overflow:hidden}
+.shelter__body{border:4px solid var(--ink);background:var(--paper);box-shadow:8px 8px 0 0 var(--ocean);padding:20px 24px;margin-top:12px}
+.shelter__name{font:400 clamp(24px,3vw,36px)/1 var(--f-display);text-transform:uppercase;letter-spacing:-.01em;margin-bottom:10px}
+.shelter__body p{margin:0;font-size:15px;line-height:1.55}
+
+/* Records */
+.records__grid{display:grid;grid-template-columns:1fr;gap:40px;align-items:stretch}
+.records__item{border:4px solid var(--ink);background:var(--paper);box-shadow:10px 10px 0 0 var(--ocean);padding:32px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px}
+.records__number{font:400 clamp(72px,12vw,140px)/1 var(--f-display);text-transform:uppercase;letter-spacing:-.01em;color:var(--ocean)}
+.records__unit{font:400 clamp(24px,4vw,40px)/1 var(--f-accent);font-style:italic;color:var(--black)}
+.records__label{font:600 14px/1.3 var(--f-body);text-transform:uppercase;letter-spacing:.05em;max-width:30ch}
+@media (min-width:768px){.records__grid{grid-template-columns:repeat(2,1fr);gap:40px}}
+@media (min-width:1100px){.records__grid{grid-template-columns:repeat(3,1fr);gap:40px}}
+
+/* Gallery */
+.gallery__grid{display:grid;grid-template-columns:1fr;gap:12px}
+.gallery__item{border:4px solid var(--ink);background:var(--paper);overflow:hidden;cursor:pointer;box-shadow:6px 6px 0 0 var(--ocean)}
+.gallery__item img{width:100%;height:100%;object-fit:cover;display:block}
+.gallery__item:hover{box-shadow:2px 2px 0 0 var(--ocean);transform:translate(2px,2px)}
+@media (min-width:640px){.gallery__grid{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:900px){.gallery__grid{grid-template-columns:repeat(3,1fr)}}
+@media (min-width:1200px){.gallery__grid{grid-template-columns:repeat(4,1fr)}}
+
+/* News */
+.news__stack{display:flex;flex-direction:column;gap:24px}
+.news__card{position:relative;border:4px solid var(--ink);background:var(--paper);box-shadow:10px 10px 0 0 var(--ocean);overflow:hidden;padding:0}
+.news__card img.img-slot.small{--ar:3/2;object-fit:cover;width:100%;height:auto;min-height:200px;border-bottom:4px solid var(--ink)}
+.news__body{padding:28px 32px;display:flex;flex-direction:column;gap:12px}
+.news__date{font:700 12px/1 var(--f-body);text-transform:uppercase;letter-spacing:.05em;color:var(--ocean)}
+.news__headline{font:400 clamp(28px,4vw,44px)/1.1 var(--f-display);text-transform:uppercase;letter-spacing:-.01em;line-height:1.1}
+.news__body p{margin:0;font-size:16px;line-height:1.55}
+
+/* Guidelines */
+.guidelines__items{display:flex;flex-direction:column;gap:24px;align-items:stretch}
+.guideline__item{border:4px solid var(--ink);background:var(--paper);box-shadow:10px 10px 0 0 var(--ocean);padding:40px 48px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px}
+.guideline__text{font:400 clamp(32px,5vw,56px)/1.2 var(--f-display);text-transform:uppercase;letter-spacing:-.01em;text-align:center;max-width:20ch}
+
+/* Footer */
+.foot{background:var(--black);color:var(--ice);border-top:4px solid var(--ice);padding:48px var(--gutter) 28px}
+.foot__top{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:15px}
+.foot__mark{margin:40px 0 16px;font:400 13vw/.9 var(--f-display);text-transform:uppercase;white-space:nowrap;letter-spacing:-.01em}
+.foot__mark em{font:italic 700 .92em/1 var(--f-accent);text-transform:none}
+
+/* Maps */
+.map__wrap{display:grid;grid-template-columns:1fr;gap:24px;align-items:stretch}
+.map__frame{border:4px solid var(--ink);background:var(--paper);box-shadow:8px 8px 0 0 var(--ocean);overflow:hidden;min-height:400px}
+.map__frame iframe{width:100%;height:100%;display:block;border:0}
+.map__cards{display:flex;flex-direction:column;gap:16px;overflow:auto;max-height:60vh}
+.club__card{border:4px solid var(--ink);background:var(--paper);box-shadow:8px 8px 0 0 var(--ocean);padding:20px 24px;cursor:pointer;transition:box-shadow .12s,transform .12s}
+.club__card:hover{box-shadow:4px 4px 0 0 var(--ocean);transform:translate(3px,3px)}
+.club__name{font:400 clamp(22px,3vw,32px)/1 var(--f-display);text-transform:uppercase;letter-spacing:-.01em;margin-bottom:6px}
+.club__meta{font:600 12px/1.4 var(--f-body);color:var(--ocean);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px}
+.club__note{font-size:15px;line-height:1.5;margin:0}
+.club__card.is-active{background:var(--ice);color:var(--black)}
+.club__card.is-active .club__name{color:var(--black)}
+@media (min-width:960px){.map__wrap{grid-template-columns:1fr 320px}}
+
+/* Near Me button */
+.nearme-btn{background:var(--black);color:var(--ice);border:4px solid var(--ink);box-shadow:6px 6px 0 0 var(--ocean);font:600 14px/1 var(--f-body);text-transform:uppercase;letter-spacing:.04em;padding:12px 20px;cursor:pointer;transition:box-shadow .12s,transform .12s;margin-bottom:16px}
+.nearme-btn:hover{box-shadow:2px 2px 0 0 var(--ocean);transform:translate(3px,3px)}
+.nearme-btn:disabled{background:var(--ocean);color:var(--ice);cursor:not-allowed;opacity:.7}
+
+/* Lightbox */
+.lightbox{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.92);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .2s,visibility .2s;padding:40px}
+.lightbox.is-open{opacity:1;visibility:visible}
+.lightbox__img{max-width:90vw;max-height:85vh;border:4px solid var(--ice);box-shadow:8px 8px 0 0 var(--ocean);object-fit:contain}
+.lightbox__close{position:absolute;top:20px;right:20px;background:var(--ice);color:var(--black);border:3px solid var(--black);width:48px;height:48px;cursor:pointer;font:700 24px/1 var(--f-display);display:flex;align-items:center;justify-content:center;box-shadow:4px 4px 0 0 var(--ocean)}
+.lightbox__close:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 0 var(--ocean)}
+.lightbox__caption{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);max-width:80vw;background:var(--black);color:var(--ice);padding:12px 20px;border:3px solid var(--ice);font:400 14px/1.4 var(--f-body);text-align:center}
+
+/* Map attribution */
+.leaflet-attribution{position:absolute;bottom:0;right:0;background:rgba(255,255,255,.85);padding:4px 8px;font:10px/1.2 var(--f-body);z-index:1000}
+
+/* Utility */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+
+@media (prefers-reduced-motion:reduce){
+  .ticker__track{animation:none}
+  .index a,.cta,.note,.types__panel:hover .types__img,.types__panel:hover .types__body,.club__card:hover,.gallery__item:hover,.nearme-btn:hover,.lightbox__close:hover{transition:none}
+}
+</style>
+</head>
+<body>
+
+<div class="loader" aria-hidden="true">
+  <div class="loader__inner">
+    <div class="loader__count" id="count">000</div>
+    <div class="loader__bar"><i></i></div>
+    <p>Getting the ropes ready</p>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="strip">
+    <span class="strip__left">The mountaineering edition, volume 1</span>
+    <div class="strip__right">
+      <span class="strip__label">Visitors</span>
+      <div class="counter" id="counter" role="img" aria-label="Visitor count"></div>
+      <a href="#top" aria-label="Alpine Ascents, back to top">
+        <svg class="strip__logo" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="20" height="20" fill="#0B5ED7" stroke="#F2F8FB" stroke-width="2"/><path d="M3 18 L9 8 L12.5 13 L15 10 L19 18 Z" fill="#F2F8FB"/></svg>
+      </a>
+    </div>
+  </div>
+  <nav class="index" aria-label="Sections">
+    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="overlay">Menu <span aria-hidden="true">+</span></button>
+    <a href="#history">History</a>
+    <a href="#types">Types</a>
+    <a href="#techniques">Techniques</a>
+    <a href="#shelter">Shelter</a>
+    <a href="#hazards">Hazards</a>
+    <a href="#records">Records</a>
+    <a href="#clubs">Clubs</a>
+    <a href="#stories">Stories</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#news">News</a>
+    <a href="#guidelines">Guidelines</a>
+  </nav>
+  <div class="overlay" id="overlay" aria-hidden="true">
+    <a href="#history">History</a>
+    <a href="#types">Types</a>
+    <a href="#techniques">Techniques</a>
+    <a href="#shelter">Shelter</a>
+    <a href="#hazards">Hazards</a>
+    <a href="#records">Records</a>
+    <a href="#clubs">Clubs</a>
+    <a href="#stories">Stories</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#news">News</a>
+    <a href="#guidelines">Guidelines</a>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <div class="hero-shell" id="top">
+      <section class="hero" aria-labelledby="hero-title">
+      <div class="hero__depth">
+        <img class="hero__img" src="assets/images/hero/hero.webp" alt="Alpine mountaineering landscape">
+      </div>
+      <div class="hero__scrim"></div>
+      <div class="hero__title">
+        <h1 id="hero-title"><span class="line"><span class="line__in">Alpine</span></span><span class="line"><span class="line__in"><em>Ascents</em></span></span></h1>
+      </div>
+      <div class="hero__bottom">
+        <div class="facts">
+          <div><b>8,849 m</b><span>Everest</span></div>
+          <div><b>14</b><span>Peaks above 8,000 m</span></div>
+          <div><b>1786</b><span>Mont Blanc first climbed</span></div>
+        </div>
+        <a class="cta" href="#history">Begin the climb
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" aria-hidden="true"><path d="M5 5 L19 19 M19 8 V19 H8"/></svg>
+        </a>
+      </div>
+    </section>
+  </div>
+
+  <!-- HISTORY -->
+  <section class="sec sec--ocean" id="history" aria-labelledby="history-t">
+    <h2 id="history-t">Since 1786.</h2>
+    <div class="history__eras" id="history-eras"></div>
+  </section>
+
+  <!-- TYPES -->
+  <section class="sec sec--ice" id="types" aria-labelledby="types-t">
+    <h2 id="types-t">Four ways up.</h2>
+    <div class="types__grid" id="types-grid"></div>
+  </section>
+
+  <!-- TECHNIQUES -->
+  <section class="sec sec--ocean" id="techniques" aria-labelledby="techniques-t">
+    <h2 id="techniques-t">How it is done.</h2>
+    <div class="techniques__frame">
+      <div id="techniques-visual" class="techniques__visual">
+        <img src="assets/images/techniques/01-route-finding.webp" alt="Route finding: reading the mountain" id="techniques-img">
+      </div>
+    </div>
+    <div class="techniques__steps" id="techniques-steps"></div>
+  </section>
+
+  <!-- SHELTER -->
+  <section class="sec sec--ice" id="shelter" aria-labelledby="shelter-t">
+    <h2 id="shelter-t">Where you sleep.</h2>
+    <div class="shelter__grid" id="shelter-grid"></div>
+  </section>
+
+  <!-- HAZARDS -->
+  <section class="sec sec--black" id="hazards" aria-labelledby="hazards-t">
+    <h2 id="hazards-t">What can kill you.</h2>
+    <div class="hazards__warn" id="hazards-warnings"></div>
+  </section>
+
+  <!-- RECORDS -->
+  <section class="sec sec--ocean" id="records" aria-labelledby="records-t">
+    <h2 id="records-t">The numbers.</h2>
+    <div class="records__grid" id="records-grid"></div>
+  </section>
+
+  <!-- CLUBS -->
+  <section class="sec sec--ice" id="clubs" aria-labelledby="clubs-t">
+    <h2 id="clubs-t">Find your rope team.</h2>
+    <div class="map__wrap" id="map-wrap">
+      <div class="map__frame" id="map-frame">
+        <div id="map-container" style="height:100%;width:100%"></div>
+      </div>
+      <div class="map__cards" id="club-cards"></div>
+      <div class="club-coords" id="club-coords"></div>
+      <button class="nearme-btn" id="nearme-btn" type="button">Near Me</button>
+    </div>
+  </section>
+
+  <!-- STORIES -->
+  <section class="sec sec--ocean" id="stories" aria-labelledby="stories-t">
+    <h2 id="stories-t">Camps, told back.</h2>
+    <div class="stories__slides" id="stories-slides"></div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="sec sec--black" id="gallery" aria-labelledby="gallery-t">
+    <h2 id="gallery-t">The proof.</h2>
+    <div class="gallery__grid" id="gallery-grid"></div>
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+      <button class="lightbox__close" id="lightbox-close" type="button" aria-label="Close image viewer">×</button>
+      <img class="lightbox__img" id="lightbox-img" src="" alt="">
+      <div class="lightbox__caption" id="lightbox-caption"></div>
+    </div>
+  </section>
+
+  <!-- NEWS -->
+  <section class="sec sec--ice" id="news" aria-labelledby="news-t">
+    <h2 id="news-t">Stop press.</h2>
+    <div class="news__stack" id="news-stack"></div>
+  </section>
+
+  <!-- GUIDELINES -->
+  <section class="sec sec--ocean" id="guidelines" aria-labelledby="guidelines-t">
+    <h2 id="guidelines-t">Before you go.</h2>
+    <div class="guidelines__items" id="guidelines-items"></div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="foot__top">
+    <p>Alpine Ascents is a student web design project — single-page editorial mountaineering site.</p>
+    <a href="#top">Back to top</a>
+  </div>
+  <p class="foot__mark" aria-hidden="true">Alpine <em>Ascents</em></p>
+</footer>
+
+<div class="ticker" role="marquee" aria-label="Mountaineering facts ticker">
+  <div class="ticker__track">
+    <div class="ticker__group">
+      <span id="today" class="ticker__today">Today</span>
+      <span id="clock" class="ticker__clock ticker__clock">--:--</span>
+      <span id="location" class="ticker__location">Location: --</span>
+      <span class="ticker__sep">·</span>
+      <span>Everest stands 8,849 m</span>
+      <span class="ticker__sep">·</span>
+      <span>K2 stands 8,611 m</span>
+      <span class="ticker__sep">·</span>
+      <span>14 peaks rise above 8,000 m</span>
+      <span class="ticker__sep">·</span>
+      <span>Mont Blanc was first climbed in 1786</span>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis-fm.jo.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="data/content.js"></script>
+<script src="data/clubs.js"></script>
+<script defer src="js/main.js"></script>
+
+</body>
+</html>
