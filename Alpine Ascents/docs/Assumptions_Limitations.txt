@@ -1,0 +1,42 @@
+Assumptions and Limitations
+Assumptions
+
+Content assumptions
+
+The five History eras, four Types, four Techniques, four Shelter types, four Hazards, and the exact list of Clubs were not specified word-for-word in the original project brief, 
+only the section headings were. 
+These specific items were chosen by the project owner and then researched and verified, 
+rather than copied from the brief.
+The three Success Stories use real events, real people and real dates, but their narrative framing and phrasing were written for this site rather than quoted from a single source.
+Facts and figures throughout the site (mountain heights, first-ascent dates, club founding years, and so on) were verified against publicly available sources at the time of writing, 
+and every source is listed in the site's footer. Sources such as Wikipedia can change over time, so a fact considered verified at build time could be updated or corrected elsewhere later.
+The three "Latest developments" news items reflect real, 
+dated events as reported at the time of writing. Since this is a fast-moving topic area (permits, rules, and climate figures), some details may become outdated after submission.
+
+Technical assumptions
+
+The site assumes a modern browser (recent Chrome, Firefox, Edge or Safari) with JavaScript enabled. It was not tested against older or unsupported browsers.
+The animation, smooth-scroll and mapping features depend on three external libraries loaded from the internet. The site assumes internet access is available at least on first load for these to appear; the core content is still readable without them.
+The map and the ticker's location feature assume the visitor's browser supports the Geolocation API and that the visitor is asked for, and may grant or deny, permission to share their location.
+Limitations
+
+Visitor counter is local, not shared
+The visitor counter is stored in each visitor's own browser, not on a server. It counts how many times that specific browser has loaded the page, not how many different people have visited the site overall. Opening the site in a different browser or device shows a separate count starting from 1. A genuinely shared, site-wide counter would require a backend server or an external counting service, which was outside the scope of this project.
+
+No video content
+The project brief's Gallery section description mentions video alongside pictures. This site deliberately includes photos only, with no video anywhere on the site. This was a scope decision made to keep the project manageable, and is treated as a known, intentional deviation from the brief rather than an oversight. The gallery's underlying structure was built so a video item could be added later without reworking the section.
+
+No Google Maps
+The brief's Clubs section mentions showing locations "using GeoLocation API (e.g. GoogleMaps)," naming Google Maps only as an example. This site uses Leaflet with CARTO map tiles instead, which needs no paid account, billing setup or API key. If the map's usual tiles fail to load, it automatically switches to a backup, plainer map tile set rather than showing a broken map.
+
+Club images show places, not logos
+Photos representing each club show the mountain range or region the club is associated with, not the club's own logo or branding, to avoid any trademark or copyright concerns around reproducing an organization's official marks.
+
+Images are placeholders until supplied
+At the time of writing, real photographs have not yet been added to the site. Every image slot shows a clearly labelled placeholder (naming the expected file and size) instead of a broken image. The site's layout and behavior were verified using these placeholders, so a final visual check is recommended once real photos are in place, though no functional changes are expected from adding them.
+
+Location and map features need real-world confirmation
+Several features — the visitor's location appearing in the ticker, the "find nearest club" button, and the map's tile-loading fallback — depend on real internet access, real location permissions, and real network conditions to fully demonstrate. These were verified through code review and partial testing during development, but a final check on a real device with normal internet access is recommended before presenting the site, since the original development and testing environment could not fully reproduce these exact conditions.
+
+Not a substitute for real climbing instruction
+This is an educational and informational website. Content on techniques, hazards and safety is presented as a general overview, not as instruction sufficient to climb safely. The site includes a note to this effect near the Techniques section, and this limitation is restated here for clarity.

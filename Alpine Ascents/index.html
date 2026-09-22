@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" class="is-loading">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alpine Ascents: mountaineering, explained</title>
+<meta name="description" content="Alpine Ascents is a student website about mountaineering: history, styles, techniques, shelter, hazards, records, clubs, success stories, news and guidelines.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Crect x='1' y='1' width='20' height='20' fill='%230B5ED7' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M3 18 L9 8 L12.5 13 L15 10 L19 18 Z' fill='%23F2F8FB'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bodoni+Moda:ital,wght@1,700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="loader" aria-hidden="true">
+  <div class="loader__inner">
+    <div class="loader__count" id="count">000</div>
+    <div class="loader__bar"><i></i></div>
+    <p>Getting the ropes ready</p>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="strip">
+    <span class="strip__left">The mountaineering edition, volume 1</span>
+    <div class="strip__right">
+      <span class="strip__label">Visitors</span>
+      <div class="counter" id="counter" role="img" aria-label="Visitor count"></div>
+      <a href="#top" aria-label="Alpine Ascents, back to top">
+        <svg class="strip__logo" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="20" height="20" fill="#0B5ED7" stroke="#F2F8FB" stroke-width="2"/><path d="M3 18 L9 8 L12.5 13 L15 10 L19 18 Z" fill="#F2F8FB"/></svg>
+      </a>
+    </div>
+  </div>
+  <nav class="index" aria-label="Sections">
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="overlay">Menu <span aria-hidden="true">+</span></button>
+    <a href="#history">History</a>
+    <a href="#types">Types</a>
+    <a href="#techniques">Techniques</a>
+    <a href="#shelter">Shelter</a>
+    <a href="#hazards">Hazards</a>
+    <a href="#records">Records</a>
+    <a href="#clubs">Clubs</a>
+    <a href="#stories">Stories</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#news">News</a>
+    <a href="#guidelines">Guidelines</a>
+  </nav>
+</header>
+
+<main>
+  <div class="hero-shell" id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero__depth">
+        <div class="img hero__img" data-slot="hero/hero" data-size="2400 x 1600 px, landscape 3:2" data-alt="Snow-capped alpine peaks under a cool sky" data-eager="1"></div>
+      </div>
+      <div class="hero__scrim"></div>
+      <div class="hero__title">
+        <h1 id="hero-title"><span class="line"><span class="line__in">Alpine</span></span><span class="line"><span class="line__in"><em>Ascents</em></span></span></h1>
+      </div>
+      <div class="hero__bottom">
+        <div class="hero__facts">
+          <div><b>8,849 m</b><span>Everest</span></div>
+          <div><b>14</b><span>Peaks above 8,000 m</span></div>
+          <div><b>1786</b><span>Mont Blanc first climbed</span></div>
+        </div>
+        <a class="cta" href="#history">Begin the climb
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" aria-hidden="true"><path d="M5 5 L19 19 M19 8 V19 H8"/></svg>
+        </a>
+      </div>
+    </section>
+  </div>
+
+  <section class="sec sec--ice" id="history" aria-labelledby="history-t">
+    <header class="sec__head">
+      <h2 id="history-t">History</h2>
+      <p class="sec__lede">From a single summit in 1786 to fourteen eight-thousanders: five turning points in the story of mountaineering.</p>
+    </header>
+    <div data-render="history"></div>
+  </section>
+
+  <section class="sec sec--ocean" id="types" aria-labelledby="types-t">
+    <header class="sec__head">
+      <h2 id="types-t">Types and styles</h2>
+      <p class="sec__lede">Not every climb is the same. Four styles of mountaineering, each with its own terrain, tools and skills.</p>
+    </header>
+    <div data-render="types"></div>
+  </section>
+
+  <section class="sec sec--ice" id="techniques" aria-labelledby="techniques-t">
+    <header class="sec__head">
+      <h2 id="techniques-t">Techniques</h2>
+      <p class="sec__lede">Four core skills every climber learns before going high.</p>
+    </header>
+    <div data-render="techniques"></div>
+    <p class="sec__foot">This is an overview, not instruction. Learn these skills with a qualified guide or a certified course.</p>
+  </section>
+
+  <section class="sec sec--ocean" id="shelter" aria-labelledby="shelter-t">
+    <header class="sec__head">
+      <h2 id="shelter-t">Sheltering</h2>
+      <p class="sec__lede">Where climbers sleep, rest and wait out the weather.</p>
+    </header>
+    <div data-render="shelter"></div>
+  </section>
+
+  <section class="sec sec--black sec--stage" id="hazards" aria-labelledby="hazards-t">
+    <header class="sec__head">
+      <h2 id="hazards-t">Hazards</h2>
+      <p class="sec__lede">The mountain does not negotiate. Four hazards every climber must respect.</p>
+    </header>
+    <div data-render="hazards"></div>
+  </section>
+
+  <section class="sec sec--ice" id="records" aria-labelledby="records-t">
+    <header class="sec__head">
+      <h2 id="records-t">Records</h2>
+      <p class="sec__lede">The numbers behind the mountains, and the people who first reached them.</p>
+    </header>
+    <div data-render="records"></div>
+  </section>
+
+  <section class="sec sec--ocean" id="clubs" aria-labelledby="clubs-t">
+    <header class="sec__head">
+      <h2 id="clubs-t">Clubs</h2>
+      <p class="sec__lede">Mountaineering clubs and associations that support climbing and training around the world. Pick one to see it on the map, or find the nearest to you.</p>
+    </header>
+    <div data-render="clubs"></div>
+  </section>
+
+  <section class="sec sec--black sec--stage" id="stories" aria-labelledby="stories-t">
+    <header class="sec__head">
+      <h2 id="stories-t">Success stories</h2>
+      <p class="sec__lede">Three organised expeditions that reached their goal.</p>
+    </header>
+    <div data-render="stories"></div>
+  </section>
+
+  <section class="sec sec--ice" id="gallery" aria-labelledby="gallery-t">
+    <header class="sec__head">
+      <h2 id="gallery-t">Gallery</h2>
+      <p class="sec__lede">Pictures from the mountains. Select any photo to enlarge it.</p>
+    </header>
+    <div data-render="gallery"></div>
+  </section>
+
+  <section class="sec sec--ocean" id="news" aria-labelledby="news-t">
+    <header class="sec__head">
+      <h2 id="news-t">Latest developments</h2>
+      <p class="sec__lede">Recent news from the world of mountaineering, with dates and sources.</p>
+    </header>
+    <div data-render="news"></div>
+  </section>
+
+  <section class="sec sec--ice" id="guidelines" aria-labelledby="guidelines-t">
+    <header class="sec__head">
+      <h2 id="guidelines-t">Guidelines</h2>
+      <p class="sec__lede">Six rules for every climber, beginner or expert.</p>
+    </header>
+    <div data-render="guidelines"></div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="foot__top">
+    <p>Alpine Ascents is a student web design project about mountaineering. Climbing is dangerous: use this site to learn, and train with qualified instructors before you climb.</p>
+    <a class="cta" href="#top">Back to top
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" aria-hidden="true"><path d="M12 20 V5 M5 12 L12 5 L19 12"/></svg>
+    </a>
+  </div>
+  <p class="foot__mark" aria-hidden="true">Alpine <em>Ascents</em></p>
+  <div class="foot__src">
+    <h2>Sources</h2>
+    <ol data-render="sources"></ol>
+  </div>
+</footer>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
+  <button class="lb__btn lb__close" type="button">Close</button>
+  <button class="lb__btn lb__prev" type="button" aria-label="Previous photo">Prev</button>
+  <figure class="lb__fig">
+    <div class="img lb__img" data-alt=""></div>
+    <figcaption class="lb__cap"></figcaption>
+  </figure>
+  <button class="lb__btn lb__next" type="button" aria-label="Next photo">Next</button>
+</div>
+
+<div class="ticker" role="marquee" aria-label="Date, time, location and mountain facts">
+  <div class="ticker__track">
+    <div class="ticker__group">
+      <span>Today: <b class="tk-date">...</b></span>
+      <span>Time: <b class="tk-clock">...</b></span>
+      <span>Location: <b class="tk-loc">Locating...</b></span>
+      <span>Everest stands 8,849 m</span>
+      <span>K2 stands 8,611 m</span>
+      <span>14 peaks rise above 8,000 m</span>
+      <span>Mont Blanc was first climbed in 1786</span>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>

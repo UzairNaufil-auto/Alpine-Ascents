@@ -1,0 +1,59 @@
+Issues Found and Fixes
+
+This documents problems that came up while building and testing the site, 
+what caused them, and what was changed to fix them. 
+This is presented as an issue log rather than a plain pass/fail chart, since it more honestly reflects the actual development process.
+
+Issue 1: Visitor counter showed 1030 instead of starting at 1. 
+The counter was originally written to start counting from a base of 1000, so the displayed number would look more like a real, established site's visitor count.
+When this was later changed in the code to start from 1 instead, the browser's local storage still held the old saved value from before the change, so it kept counting up from there instead of resetting. The fix was to update the code to start from 0, and to manually clear the old saved value once through the browser's developer tools. After that one-time clear, the counter behaved correctly on every visit after. This is resolved and was confirmed working by a manual check.
+
+Issue 2: Tapping a type or technique panel on mobile didn't register. 
+During testing on a narrow, phone-width screen, tapping directly on a panel's label sometimes did nothing, 
+or the tap seemed to pass through to something behind it. 
+The cause was that the placeholder image sitting behind each panel's label was capturing the tap before it reached the actual button underneath. 
+The fix was to set that placeholder layer to ignore taps and clicks entirely, so they pass straight through to the button beneath it. 
+This is resolved and was retested on both desktop and mobile screen widths with no repeat of the issue.
+
+Issue 3: Content overflowed sideways on narrow, phone-width screens. 
+A few elements — the shelter list's item names, the scrolling ticker at the bottom, 
+and some section headings — pushed slightly past the edge of the screen at phone widths, which risks creating an unwanted horizontal scrollbar. 
+This happened because a few font sizes and spacing values that worked fine on a desktop screen were simply too large once the screen got narrow enough. 
+The fix was to adjust font sizes, padding and a few layout rules specifically for narrow screens, so all content stays within the visible width. 
+This is resolved and was retested at common phone, tablet and desktop widths.
+
+Issue 4: Hidden sections could still be reached and focused with the keyboard. 
+Sections like Hazards and Stories show one photo and message at a time, fading between them as the visitor scrolls, 
+but the hidden, not-currently-shown versions could still technically be reached by someone tabbing through the page with a keyboard, 
+even though they were invisible on screen. 
+This happened because the hidden panels were only made invisible visually, without also being removed from the keyboard's focus order. 
+The fix was to exclude hidden panels from keyboard focus until they become the active, visible one. 
+This is resolved and was retested using keyboard-only navigation.
+
+Issue 5: Large record numbers could overflow their box. 
+In the Records section, one of the larger numbers came close to overflowing the edge of its display box on certain screen widths. 
+This happened because the number and its unit label, such as "m" for metres, were sized as a single block of text without separate sizing rules for each part. 
+The fix was to split the number and its unit label apart, so the unit displays smaller than the main figure, keeping the whole thing inside its box at every screen size tested. 
+This is resolved and was retested.
+
+Functional Test Coverage
+
+Beyond the specific issues above, the following areas were checked during development, using a combination of a scripted browser tool that simulates desktop, tablet and mobile screen sizes, 
+and manual review of the code.
+
+Page load and the loading animation were checked, 
+including what happens if the animation library fails to load, and both worked as intended. 
+Every navigation link, the mobile menu, and the "back to top" and "begin the climb" buttons were checked and worked as intended. The History section's sticky year counter was checked while scrolling through all five eras and animated correctly. The Types section's expanding panels were checked using mouse hover, touch tapping and keyboard focus, and all three worked as intended once Issue 2 above was fixed. The Techniques section's sticky photo and step numbers were checked for staying in sync while scrolling, and worked as intended. The Shelter section's item selection was checked by mouse and by keyboard, and both updated the photo shown correctly. The Hazards section's changing background and warning text were checked while scrolling and worked as intended.
+
+The Records section's count-up number animation was checked both normally and with reduced motion turned on, 
+and both showed correct behavior, animating up in the normal case and appearing instantly at the final value when motion is reduced. 
+The Clubs map was checked for displaying pins correctly and for moving to a club's location when its card is clicked, by both mouse and keyboard, and this worked as intended in testing, though a final check is recommended once the site is hosted with normal internet access. 
+The "find nearest club" feature's logic was checked directly for the case where a visitor denies location access, which showed a clear message as intended; the successful, permission-granted case should be confirmed once more on a real device with location services turned on, since the test environment could not fully simulate a real location. The map's fallback behavior, in case its photo tiles fail to load, was reviewed in the code and is recommended for one more check under a real interrupted connection.
+
+The Gallery's photo viewer was checked for opening, closing and navigating between photos by both mouse and keyboard, 
+and worked as intended. The bottom ticker's date and time display were checked and updated correctly, and its location display correctly showed a fallback message when permission was not granted; the successful location case should be confirmed on a real device, for the same reason as the map above. The visitor counter was checked for starting correctly and increasing with each visit in the same browser, and worked as intended once Issue 1 above was fixed. Image placeholders were checked for appearing correctly wherever a photo has not yet been added, and are expected to be replaced automatically once real photos are added to their folders, though this final swap has not yet been tested since no real photos existed at the time of writing. Finally, the site was checked with reduced motion turned on in system settings, and remained fully readable and usable with no animation, and the overall page layout was checked at common desktop, tablet and phone screen widths without any unwanted horizontal scrolling, following the fix described in Issue 3 above.
+
+A note on scope: this site was tested primarily in a sandboxed environment without live internet access, 
+using local copies of the external libraries it depends on, such as the animation and mapping libraries. 
+A few areas above are noted as recommended for one more check on your own machine with normal internet access and a real device, 
+since those specific conditions could not be fully reproduced in the test environment used during development.

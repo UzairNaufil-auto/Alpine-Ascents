@@ -1,0 +1,65 @@
+# Alpine Ascents: image slots
+
+Save each image at `assets/images/<path>.jpg` (or `.png` / `.webp` — any of the three works, tried in that order). No renaming needed beyond matching the name below exactly.
+
+## hero/  —  2400 x 1600 px, landscape 3:2
+- `assets/images/hero/hero.jpg`
+
+## history/  —  2400 x 1500 px, landscape 16:10
+- `assets/images/history/01-mont-blanc-first-ascent.jpg`
+- `assets/images/history/02-golden-age-alpine.jpg`
+- `assets/images/history/03-early-himalayan-expedition.jpg`
+- `assets/images/history/04-everest-1953-era.jpg`
+- `assets/images/history/05-modern-alpine-style.jpg`
+
+## types/  —  1200 x 1800 px, portrait 2:3
+- `assets/images/types/01-alpine-climbing.jpg`
+- `assets/images/types/02-rock-climbing.jpg`
+- `assets/images/types/03-ice-climbing.jpg`
+- `assets/images/types/04-expedition-climbing.jpg`
+
+## techniques/  —  1600 x 1067 px, landscape 3:2
+- `assets/images/techniques/01-route-finding.jpg`
+- `assets/images/techniques/02-anchoring.jpg`
+- `assets/images/techniques/03-belaying.jpg`
+- `assets/images/techniques/04-rappelling.jpg`
+
+## shelter/  —  1600 x 1067 px, landscape 3:2
+- `assets/images/shelter/01-mountain-tent.jpg`
+- `assets/images/shelter/02-snow-cave.jpg`
+- `assets/images/shelter/03-bivouac.jpg`
+- `assets/images/shelter/04-mountain-hut.jpg`
+
+## hazards/  —  2400 x 1500 px, landscape 16:10, dark
+- `assets/images/hazards/01-avalanche.jpg`
+- `assets/images/hazards/02-crevasse.jpg`
+- `assets/images/hazards/03-snow-storm.jpg`
+- `assets/images/hazards/04-high-altitude.jpg`
+
+## clubs/  —  1200 x 800 px, landscape 3:2
+- `assets/images/clubs/01-alps.jpg`
+- `assets/images/clubs/02-rocky-mountains-colorado.jpg`
+- `assets/images/clubs/03-canadian-rockies.jpg`
+- `assets/images/clubs/04-himalaya-nepal.jpg`
+
+## stories/  —  2400 x 1350 px, landscape 16:9 or wider
+- `assets/images/stories/01-summit-team.jpg`
+- `assets/images/stories/02-base-camp.jpg`
+- `assets/images/stories/03-camp-at-dawn.jpg`
+
+## gallery/  —  1600 px on the long side, mixed orientation
+- `assets/images/gallery/01-summit-ridge.jpg`
+- `assets/images/gallery/02-glacier.jpg`
+- `assets/images/gallery/03-cloud-inversion.jpg`
+- `assets/images/gallery/04-night-sky.jpg`
+- `assets/images/gallery/05-gear.jpg`
+- `assets/images/gallery/06-camp.jpg`
+- `assets/images/gallery/07-ice-wall.jpg`
+- `assets/images/gallery/08-climber-silhouette.jpg`
+- `assets/images/gallery/09-valley-mist.jpg`
+- `assets/images/gallery/10-snow-peak.jpg`
+
+## news/  —  1200 x 800 px, landscape 3:2
+- `assets/images/news/01-glacier-retreat.jpg`
+- `assets/images/news/02-climbing-gear-technology.jpg`
+- `assets/images/news/03-crowded-mountain-route.jpg`
